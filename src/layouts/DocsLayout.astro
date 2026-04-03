@@ -1,0 +1,127 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import DocsSidebar from '../components/docs/DocsSidebar.astro';
+import TOC from '../components/blog/TOC.astro';
+import TagBadge from '../components/blog/TagBadge.astro';
+
+interface Props {
+  doc: CollectionEntry<'docs'>;
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { doc, headings } = Astro.props;
+const { title, description, date, category, tags, source, emoji } = doc.data;
+
+const formattedDate = date.toLocaleDateString('ja-JP', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const categoryColors: Record<string, string> = {
+  '概念': 'var(--badge-tech)',
+  'フレームワーク': 'var(--badge-idea)',
+  'Tips': 'var(--badge-tips)',
+};
+const catColor = categoryColors[category] ?? 'var(--badge-tech)';
+
+// パンくず
+const breadcrumbs = [
+  { label: 'ホーム', href: '/' },
+  { label: 'Docs', href: '/docs' },
+  { label: category, href: `/docs?category=${encodeURIComponent(category)}` },
+  { label: title, href: null },
+];
+---
+
+<BaseLayout title={title} description={description} noContainer>
+  <div class="flex min-h-screen">
+    <!-- 左サイドバー -->
+    <aside class="hidden lg:block w-56 shrink-0 border-r border-[var(--border)] bg-[var(--sidebar-bg)]">
+      <div class="sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto p-4">
+        <DocsSidebar />
+      </div>
+    </aside>
+
+    <!-- 中央コンテンツ -->
+    <div class="flex-1 min-w-0 flex gap-8 px-6 py-8 max-w-4xl">
+      <article class="flex-1 min-w-0">
+        <!-- パンくず -->
+        <nav class="flex items-center gap-1.5 text-xs text-[var(--text-muted)] mb-6 flex-wrap">
+          {breadcrumbs.map((crumb, i) => (
+            <>
+              {i > 0 && <span>/</span>}
+              {crumb.href ? (
+                <a href={crumb.href} class="hover:text-[var(--accent)] transition-colors">{crumb.label}</a>
+              ) : (
+                <span class="text-[var(--text-secondary)]">{crumb.label}</span>
+              )}
+            </>
+          ))}
+        </nav>
+
+        <!-- ヘッダー -->
+        <header class="mb-8">
+          {emoji && <div class="text-4xl mb-4">{emoji}</div>}
+
+          <!-- タグ群 -->
+          <div class="flex flex-wrap items-center gap-2 mb-4">
+            <span
+              class="text-xs font-semibold px-2.5 py-0.5 rounded-full text-white"
+              style={`background-color: ${catColor};`}
+            >
+              {category}
+            </span>
+            {tags.map((tag) => (
+              <TagBadge tag={tag} />
+            ))}
+            <time class="text-xs text-[var(--text-muted)] ml-auto">{formattedDate}</time>
+          </div>
+
+          <h1 class="text-2xl font-bold text-[var(--text-primary)] leading-snug mb-2">{title}</h1>
+          {description && (
+            <p class="text-sm text-[var(--text-secondary)]">{description}</p>
+          )}
+        </header>
+
+        <!-- 本文 -->
+        <div class="prose prose-sm max-w-none
+          prose-headings:text-[var(--text-primary)]
+          prose-p:text-[var(--text-primary)]
+          prose-a:text-[var(--accent)]
+          prose-strong:text-[var(--text-primary)]
+          prose-code:text-[var(--accent)]
+          prose-code:bg-[var(--bg-secondary)]
+          prose-code:px-1
+          prose-code:py-0.5
+          prose-code:rounded
+          prose-code:before:content-none
+          prose-code:after:content-none
+          prose-hr:border-[var(--border)]
+          prose-blockquote:border-[var(--accent)]
+          prose-blockquote:text-[var(--text-secondary)]
+          prose-li:text-[var(--text-primary)]
+        ">
+          <slot />
+        </div>
+
+        <!-- 出典 -->
+        {source && (
+          <div class="mt-10 pt-6 border-t border-[var(--border)]">
+            <p class="text-xs text-[var(--text-muted)]">
+              出典: <span class="text-[var(--text-secondary)]">{source}</span>
+            </p>
+          </div>
+        )}
+      </article>
+    </div>
+
+    <!-- 右サイドバー: TOC -->
+    <aside class="hidden xl:block w-52 shrink-0 py-8 pr-4">
+      <div class="sticky top-24">
+        <TOC headings={headings} />
+      </div>
+    </aside>
+  </div>
+</BaseLayout>

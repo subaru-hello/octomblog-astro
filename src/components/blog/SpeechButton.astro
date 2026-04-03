@@ -1,0 +1,70 @@
+---
+interface Props {
+  text: string;
+  lang?: string;
+}
+const { text, lang = 'ja-JP' } = Astro.props;
+---
+
+<button
+  id="speech-btn"
+  data-text={text}
+  data-lang={lang}
+  aria-label="読み上げる"
+  title="読み上げる"
+  class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-md border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
+>
+  <!-- Speaker icon -->
+  <svg id="speech-icon-play" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+  </svg>
+  <!-- Stop icon (hidden by default) -->
+  <svg id="speech-icon-stop" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden">
+    <rect x="6" y="6" width="12" height="12"/>
+  </svg>
+  <span id="speech-label">読み上げ</span>
+</button>
+
+<script>
+  const btn = document.getElementById('speech-btn');
+  const iconPlay = document.getElementById('speech-icon-play');
+  const iconStop = document.getElementById('speech-icon-stop');
+  const label = document.getElementById('speech-label');
+
+  if (!('speechSynthesis' in window) || !btn) {
+    btn?.setAttribute('disabled', 'true');
+    btn?.setAttribute('title', 'このブラウザは読み上げ非対応です');
+  } else {
+    let speaking = false;
+
+    function stopSpeech() {
+      window.speechSynthesis.cancel();
+      speaking = false;
+      iconPlay?.classList.remove('hidden');
+      iconStop?.classList.add('hidden');
+      if (label) label.textContent = '読み上げ';
+    }
+
+    btn.addEventListener('click', () => {
+      if (speaking) {
+        stopSpeech();
+        return;
+      }
+      const text = btn.dataset.text ?? '';
+      const lang = btn.dataset.lang ?? 'ja-JP';
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = lang;
+      utter.rate = 0.95;
+      utter.onend = stopSpeech;
+      utter.onerror = stopSpeech;
+
+      window.speechSynthesis.speak(utter);
+      speaking = true;
+      iconPlay?.classList.add('hidden');
+      iconStop?.classList.remove('hidden');
+      if (label) label.textContent = '停止';
+    });
+  }
+</script>

@@ -1,0 +1,137 @@
+---
+import { getCollection } from 'astro:content';
+
+const allDocs = await getCollection('docs');
+const currentPath = Astro.url.pathname;
+
+const categories = ['概念', 'フレームワーク', 'Tips'] as const;
+
+// lang ごとにグルーピング（デフォルトは 'ja'）
+const buildGrouped = (lang: 'ja' | 'en') =>
+  categories.map((cat) => ({
+    label: cat,
+    docs: allDocs
+      .filter((d) => d.data.category === cat && (d.data.lang ?? 'ja') === lang)
+      .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0) || a.data.title.localeCompare(b.data.title, 'ja')),
+  }));
+
+const jaGrouped = buildGrouped('ja');
+const enGrouped = buildGrouped('en');
+const hasEn = enGrouped.some((g) => g.docs.length > 0);
+---
+
+<nav class="text-sm" id="docs-sidebar-nav">
+  <a
+    href="/docs"
+    class="flex items-center gap-1.5 text-xs text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors mb-4"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+    一覧に戻る
+  </a>
+
+  <!-- JA / EN タブ（英語ドキュメントがある場合のみ表示） -->
+  {hasEn && (
+    <div class="flex gap-1 mb-4">
+      <button
+        id="lang-ja"
+        class="lang-tab flex-1 text-xs py-1 rounded-md border transition-colors border-[var(--accent)] text-[var(--accent)] bg-[var(--bg-secondary)]"
+        data-lang="ja"
+      >JA</button>
+      <button
+        id="lang-en"
+        class="lang-tab flex-1 text-xs py-1 rounded-md border transition-colors border-[var(--border)] text-[var(--text-muted)]"
+        data-lang="en"
+      >EN</button>
+    </div>
+  )}
+
+  <!-- 日本語ドキュメント -->
+  <div id="docs-lang-ja">
+    {jaGrouped.map(({ label, docs }) => docs.length > 0 && (
+      <div class="mb-6">
+        <p class="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-widest mb-2">{label}</p>
+        <ul class="flex flex-col gap-0.5">
+          {docs.map((doc) => {
+            const href = `/docs/${doc.id}`;
+            const isActive = currentPath === href || currentPath === `${href}/`;
+            return (
+              <li>
+                <a
+                  href={href}
+                  class={`block px-2 py-1.5 rounded-md transition-colors text-xs leading-snug ${
+                    isActive
+                      ? 'bg-[var(--bg-secondary)] text-[var(--accent)] font-medium'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]'
+                  }`}
+                >
+                  {doc.data.emoji && <span class="mr-1">{doc.data.emoji}</span>}{doc.data.title}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  <!-- 英語ドキュメント（初期非表示） -->
+  {hasEn && (
+    <div id="docs-lang-en" class="hidden">
+      {enGrouped.map(({ label, docs }) => docs.length > 0 && (
+        <div class="mb-6">
+          <p class="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-widest mb-2">{label}</p>
+          <ul class="flex flex-col gap-0.5">
+            {docs.map((doc) => {
+              const href = `/docs/${doc.id}`;
+              const isActive = currentPath === href || currentPath === `${href}/`;
+              return (
+                <li>
+                  <a
+                    href={href}
+                    class={`block px-2 py-1.5 rounded-md transition-colors text-xs leading-snug ${
+                      isActive
+                        ? 'bg-[var(--bg-secondary)] text-[var(--accent)] font-medium'
+                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]'
+                    }`}
+                  >
+                    {doc.data.emoji && <span class="mr-1">{doc.data.emoji}</span>}{doc.data.title}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
+    </div>
+  )}
+</nav>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.lang-tab');
+  const jaEl = document.getElementById('docs-lang-ja');
+  const enEl = document.getElementById('docs-lang-en');
+
+  const stored = localStorage.getItem('docs-lang') ?? 'ja';
+  applyLang(stored);
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const lang = tab.dataset.lang ?? 'ja';
+      localStorage.setItem('docs-lang', lang);
+      applyLang(lang);
+    });
+  });
+
+  function applyLang(lang: string) {
+    jaEl?.classList.toggle('hidden', lang !== 'ja');
+    enEl?.classList.toggle('hidden', lang !== 'en');
+    tabs.forEach((tab) => {
+      const active = tab.dataset.lang === lang;
+      tab.classList.toggle('border-[var(--accent)]', active);
+      tab.classList.toggle('text-[var(--accent)]', active);
+      tab.classList.toggle('bg-[var(--bg-secondary)]', active);
+      tab.classList.toggle('border-[var(--border)]', !active);
+      tab.classList.toggle('text-[var(--text-muted)]', !active);
+    });
+  }
+</script>

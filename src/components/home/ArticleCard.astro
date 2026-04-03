@@ -1,0 +1,81 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  date: Date;
+  slug: string;
+  image?: string;
+  categories?: string[];
+  tags?: string[];
+}
+
+const { title, description, date, slug, image, categories = [], tags = [] } = Astro.props;
+
+// カテゴリ → バッジ種別マッピング
+const badgeMap: Record<string, { label: string; color: string }> = {
+  javascript: { label: 'TECH', color: 'var(--badge-tech)' },
+  typescript: { label: 'TECH', color: 'var(--badge-tech)' },
+  react: { label: 'TECH', color: 'var(--badge-tech)' },
+  go: { label: 'TECH', color: 'var(--badge-tech)' },
+  python: { label: 'TECH', color: 'var(--badge-tech)' },
+  algorithm: { label: 'TECH', color: 'var(--badge-tech)' },
+};
+
+const firstCat = categories[0]?.toLowerCase() ?? tags[0]?.toLowerCase() ?? '';
+const badge = badgeMap[firstCat] ?? { label: 'IDEA', color: 'var(--badge-idea)' };
+
+const formattedDate = date.toLocaleDateString('ja-JP', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
+const fallbackImage = '/images/feature2/content.png';
+
+// 画像パスの正規化: 先頭に / がなければ追加
+const resolvedImage = image
+  ? (image.startsWith('http') ? image : `/${image}`)
+  : fallbackImage;
+---
+
+<a
+  href={`/blog/${slug}`}
+  class="group block rounded-xl border border-[var(--border)] bg-[var(--bg-card)] overflow-hidden hover:border-[var(--accent)] transition-all hover:shadow-lg hover:-translate-y-0.5"
+>
+  <!-- カバー画像 -->
+  <div class="aspect-[16/9] bg-[var(--bg-secondary)] overflow-hidden relative">
+    <img
+      src={resolvedImage}
+      alt={title}
+      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+      onerror={`this.src='${fallbackImage}';this.onerror=null`}
+    />
+    <!-- カテゴリバッジ -->
+    <span
+      class="absolute top-2 left-2 text-xs font-bold px-2 py-0.5 rounded text-white"
+      style={`background-color: ${badge.color};`}
+    >
+      {badge.label}
+    </span>
+  </div>
+
+  <!-- テキスト -->
+  <div class="p-4 flex flex-col gap-2">
+    <h2 class="text-sm font-semibold text-[var(--text-primary)] line-clamp-2 group-hover:text-[var(--accent)] transition-colors leading-snug">
+      {title}
+    </h2>
+    {description && (
+      <p class="text-xs text-[var(--text-secondary)] line-clamp-2 leading-relaxed">
+        {description}
+      </p>
+    )}
+    <div class="flex items-center justify-between mt-auto pt-1">
+      <time class="text-xs text-[var(--text-muted)]">{formattedDate}</time>
+      {tags.length > 0 && (
+        <span class="text-xs text-[var(--text-muted)] truncate max-w-[120px]">
+          #{tags[0]}
+        </span>
+      )}
+    </div>
+  </div>
+</a>

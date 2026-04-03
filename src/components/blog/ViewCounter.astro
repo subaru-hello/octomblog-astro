@@ -1,0 +1,36 @@
+---
+interface Props {
+  slug: string;
+}
+const { slug } = Astro.props;
+---
+
+<span
+  id="view-counter"
+  data-slug={slug}
+  class="inline-flex items-center gap-1 text-xs text-[var(--text-muted)]"
+  title="閲覧数"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+    <circle cx="12" cy="12" r="3"/>
+  </svg>
+  <span id="view-count">—</span>
+</span>
+
+<script>
+  const el = document.getElementById('view-counter');
+  const countEl = document.getElementById('view-count');
+  const slug = el?.dataset.slug;
+
+  if (slug) {
+    fetch(`/api/views/${slug}`, { method: 'POST' })
+      .then((r) => r.json())
+      .then((data: { views: number }) => {
+        if (countEl) countEl.textContent = String(data.views);
+      })
+      .catch(() => {
+        if (countEl) countEl.textContent = '—';
+      });
+  }
+</script>
