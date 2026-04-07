@@ -6,9 +6,9 @@ description: 副作用とドメインロジックを2層に分離し、ビジネ
 tags: ["関数型", "アーキテクチャ", "設計原則"]
 emoji: "🏛️"
 date: "2026-04-01"
+series:
+  - 関数型プログラミング
 ---
-
-# Functional Core, Imperative Shell
 
 ## 定義
 

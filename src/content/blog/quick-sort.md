@@ -9,6 +9,8 @@ tags:
 categories:
   - algorithms
   - computer-science
+series:
+  - アルゴリズム
 image: images/feature2/quick-sort.png
 ---
 

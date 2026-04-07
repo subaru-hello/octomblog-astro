@@ -9,6 +9,8 @@ tags:
 categories:
   - read-books
   - be-a-professional-developer
+series:
+  - Good Code, Bad Code
 image: images/feature2/goodcode.jpeg
 ---
 

@@ -11,6 +11,8 @@ tags:
 categories:
   - computer-science
   - algorithms
+series:
+  - アルゴリズム
 image: images/feature2/scc-web-graph.png
 ---
 

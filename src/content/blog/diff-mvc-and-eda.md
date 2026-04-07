@@ -9,7 +9,8 @@ tags:
 - テスタブルjavascript
 categories:
 - javascript
-
+series:
+  - テスタブルJavaScript
 image: images/feature2/super-joy.jpeg
 ---
 

@@ -10,6 +10,8 @@ tags:
   - operation-systems
 categories:
   - computer-science
+series:
+  - OS・プロセス・メモリ
 image: images/feature2/process-controll-block.jpeg
 ---
 

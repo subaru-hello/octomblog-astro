@@ -16,6 +16,15 @@ posts.forEach((post) => {
 const topTags = Object.entries(tagCount)
   .sort((a, b) => b[1] - a[1])
   .slice(0, 12);
+
+// シリーズ一覧（件数付き）
+const seriesCount: Record<string, number> = {};
+posts.forEach((post) => {
+  post.data.series?.forEach((s) => {
+    seriesCount[s] = (seriesCount[s] ?? 0) + 1;
+  });
+});
+const allSeries = Object.entries(seriesCount).sort((a, b) => b[1] - a[1]);
 ---
 
 <BaseLayout title="Blog">
@@ -24,6 +33,23 @@ const topTags = Object.entries(tagCount)
       <h1 class="text-2xl font-bold text-[var(--text-primary)] mb-1">Blog</h1>
       <p class="text-sm text-[var(--text-secondary)]">{posts.length}件の記事</p>
     </div>
+
+    <!-- シリーズフィルター -->
+    {allSeries.length > 0 && (
+      <div class="mb-6">
+        <h2 class="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider mb-2">シリーズ</h2>
+        <div class="flex flex-wrap gap-2">
+          {allSeries.map(([name, count]) => (
+            <a
+              href={`/blog/series/${encodeURIComponent(name)}`}
+              class="inline-flex items-center gap-1.5 px-3 py-1 text-xs rounded-full border border-[var(--border)] text-[var(--text-secondary)] bg-[var(--bg-secondary)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+            >
+              📚 {name} <span class="text-[var(--text-muted)]">{count}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
 
     <!-- タグフィルター -->
     {topTags.length > 0 && (

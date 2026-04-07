@@ -10,6 +10,8 @@ tags:
 - typescript
 categories:
 - algorithms
+series:
+  - アルゴリズム
 image: images/feature2/typescript.png
 ---
 

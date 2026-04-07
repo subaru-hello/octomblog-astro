@@ -10,6 +10,7 @@ tags:
 - オンコール
 categories:
 - engineering
+image: images/blog-covers/sre-workbook-notes.jpg
 ---
 
 Google SRE Workbook を読んで、特に実務に直結すると感じた概念とルールをまとめた。

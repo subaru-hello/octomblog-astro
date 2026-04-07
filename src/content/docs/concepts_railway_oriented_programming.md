@@ -6,9 +6,9 @@ description: エラー処理を2本レールの鉄道として表現し、型安
 tags: ["関数型", "エラーハンドリング", "パターン"]
 emoji: "🚃"
 date: "2026-04-01"
+series:
+  - 関数型プログラミング
 ---
-
-# Railway-Oriented Programming（鉄道指向プログラミング）
 
 ## 定義
 

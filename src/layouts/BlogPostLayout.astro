@@ -5,6 +5,7 @@ import TOC from '../components/blog/TOC.astro';
 import TagBadge from '../components/blog/TagBadge.astro';
 import ViewCounter from '../components/blog/ViewCounter.astro';
 import SpeechButton from '../components/blog/SpeechButton.astro';
+import SeriesWidget from '../components/blog/SeriesWidget.astro';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -21,9 +22,29 @@ const formattedDate = date.toLocaleDateString('ja-JP', {
 });
 
 const speechText = description ? `${title}。${description}` : title;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImage = image ? new URL(`/${image}`, Astro.site) : new URL('/images/whoami/avatar.jpg', Astro.site);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description: description ?? '',
+  datePublished: date.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: author ?? 'subaru',
+    url: Astro.site?.origin,
+  },
+  image: ogImage.toString(),
+  url: canonicalURL.toString(),
+  keywords: tags,
+};
 ---
 
-<BaseLayout title={title} description={description} image={image} noContainer>
+<BaseLayout title={title} description={description} image={image} noContainer ogType="article" publishedTime={date.toISOString()}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} slot="head" />
   <div class="max-w-6xl mx-auto px-4 py-8">
     <div class="flex gap-8">
       <!-- 左: TOC (デスクトップのみ) -->
@@ -74,6 +95,20 @@ const speechText = description ? `${title}。${description}` : title;
           </div>
         </header>
 
+        <!-- シリーズ（本文より上、ヘッダー直下） -->
+        {post.data.series && post.data.series.length > 0 && (
+          <div class="mb-6 flex flex-wrap gap-2">
+            {post.data.series.map((s) => (
+              <a
+                href={`/blog/series/${encodeURIComponent(s)}`}
+                class="inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full border border-[var(--accent)] text-[var(--accent)] bg-[var(--bg-secondary)] hover:bg-[var(--accent)] hover:text-white transition-colors"
+              >
+                📚 {s}
+              </a>
+            ))}
+          </div>
+        )}
+
         <!-- 本文 -->
         <div class="prose prose-sm max-w-none
           prose-headings:text-[var(--text-primary)]
@@ -94,6 +129,9 @@ const speechText = description ? `${title}。${description}` : title;
         ">
           <slot />
         </div>
+
+        <!-- シリーズ内の他の記事 -->
+        <SeriesWidget post={post} />
       </article>
     </div>
   </div>

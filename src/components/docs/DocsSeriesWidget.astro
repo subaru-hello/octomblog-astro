@@ -1,0 +1,60 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  doc: CollectionEntry<'docs'>;
+}
+
+const { doc } = Astro.props;
+const { series } = doc.data;
+
+if (!series || series.length === 0) return;
+
+const allDocs = await getCollection('docs');
+
+const seriesGroups = series.map((s) => ({
+  name: s,
+  docs: allDocs
+    .filter((d) => d.data.series?.includes(s))
+    .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0) || a.data.title.localeCompare(b.data.title, 'ja')),
+}));
+---
+
+<div class="mt-10 border-t border-[var(--border)] pt-8">
+  {seriesGroups.map(({ name, docs }) => (
+    <div class="mb-6">
+      <div class="flex items-center gap-2 mb-4">
+        <span class="text-base">📚</span>
+        <a
+          href={`/docs/series/${encodeURIComponent(name)}`}
+          class="text-sm font-semibold text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors"
+        >
+          {name}
+        </a>
+        <span class="text-xs text-[var(--text-muted)] bg-[var(--bg-secondary)] px-2 py-0.5 rounded-full">
+          {docs.length}件
+        </span>
+      </div>
+      <ol class="space-y-2 pl-1">
+        {docs.map((d, i) => (
+          <li class="flex items-start gap-2.5">
+            <span class="text-xs text-[var(--text-muted)] mt-1 w-4 shrink-0">{i + 1}.</span>
+            {d.id === doc.id ? (
+              <span class="text-sm font-semibold text-[var(--accent)]">
+                {d.data.emoji && <span class="mr-1">{d.data.emoji}</span>}{d.data.title}
+              </span>
+            ) : (
+              <a
+                href={`/docs/${d.id}`}
+                class="text-sm text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors leading-snug"
+              >
+                {d.data.emoji && <span class="mr-1">{d.data.emoji}</span>}{d.data.title}
+              </a>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  ))}
+</div>

@@ -9,6 +9,8 @@ tags:
 - operation-system 
 categories:
 - computer-science
+series:
+  - OS・プロセス・メモリ
 image: images/feature2/time-scheduling.jpeg
 
 ---

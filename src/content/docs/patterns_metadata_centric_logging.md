@@ -6,9 +6,9 @@ tags: []
 date: "2026-04-01"
 emoji: "🔌"
 order: 1
+series:
+  - SREワークブック
 ---
-
-# メタデータ中心ロギング（Metadata-Centric Logging）
 
 ## 定義
 

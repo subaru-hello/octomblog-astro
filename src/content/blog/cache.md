@@ -10,6 +10,8 @@ tags:
   - cpu
 categories:
   - computer-science
+series:
+  - はじめて読む486
 image: images/feature2/cache.png
 ---
 

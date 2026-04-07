@@ -29,6 +29,7 @@ const docs = defineCollection({
     emoji: z.string().optional().default('📄'),
     order: z.number().optional().default(0),
     lang: z.enum(['ja', 'en']).optional().default('ja'),
+    series: z.array(z.string()).optional().default([]),
   }),
 });
 

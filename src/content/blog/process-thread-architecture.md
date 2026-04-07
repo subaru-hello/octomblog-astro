@@ -4,6 +4,8 @@ date: 2025-04-12T11:30:00+09:00
 description: "Detailed comparison and implementation of four different communication patterns"
 tags: ["architecture", "process", "thread", "concurrent-programming", "system-design"]
 categories: ["technical"]
+series:
+  - OS・プロセス・メモリ
 draft: false
 libraries:
 - mermaid

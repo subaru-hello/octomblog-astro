@@ -6,6 +6,8 @@ tags: ["DevOps", "SRE", "オブザーバビリティ", "プロジェクト管理
 emoji: "🎯"
 date: "2026-04-04"
 order: 60
+series:
+  - SREワークブック
 ---
 
 ## 定義

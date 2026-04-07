@@ -4,6 +4,7 @@ import BaseLayout from './BaseLayout.astro';
 import DocsSidebar from '../components/docs/DocsSidebar.astro';
 import TOC from '../components/blog/TOC.astro';
 import TagBadge from '../components/blog/TagBadge.astro';
+import DocsSeriesWidget from '../components/docs/DocsSeriesWidget.astro';
 
 interface Props {
   doc: CollectionEntry<'docs'>;
@@ -11,7 +12,7 @@ interface Props {
 }
 
 const { doc, headings } = Astro.props;
-const { title, description, date, category, tags, source, emoji } = doc.data;
+const { title, description, date, category, tags, source, emoji, series } = doc.data;
 
 const formattedDate = date.toLocaleDateString('ja-JP', {
   year: 'numeric',
@@ -37,16 +38,43 @@ const breadcrumbs = [
 
 <BaseLayout title={title} description={description} noContainer>
   <div class="flex min-h-screen">
-    <!-- 左サイドバー -->
-    <aside class="hidden lg:block w-56 shrink-0 border-r border-[var(--border)] bg-[var(--sidebar-bg)]">
-      <div class="sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto p-4">
+    <!-- モバイル：オーバーレイ背景 -->
+    <div
+      id="sidebar-backdrop"
+      class="fixed inset-0 z-30 bg-black/50 hidden lg:hidden"
+      aria-hidden="true"
+    ></div>
+
+    <!-- 左サイドバー（lg以上：固定表示 / モバイル：ドロワー） -->
+    <aside
+      id="docs-sidebar"
+      class="
+        fixed top-14 left-0 z-40 h-[calc(100vh-3.5rem)] w-64
+        -translate-x-full transition-transform duration-200
+        lg:sticky lg:top-14 lg:translate-x-0 lg:w-56 lg:shrink-0 lg:block lg:z-auto
+        border-r border-[var(--border)] bg-[var(--sidebar-bg)]
+      "
+    >
+      <div class="h-full overflow-y-auto scrollbar-none p-4">
         <DocsSidebar />
       </div>
     </aside>
 
     <!-- 中央コンテンツ -->
-    <div class="flex-1 min-w-0 flex gap-8 px-6 py-8 max-w-4xl">
+    <div class="flex-1 min-w-0 flex gap-8 px-8 py-8">
       <article class="flex-1 min-w-0">
+        <!-- モバイル：サイドバー開閉ボタン -->
+        <button
+          id="sidebar-toggle"
+          class="lg:hidden flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] mb-4 transition-colors"
+          aria-label="サイドバーを開く"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+          メニュー
+        </button>
+
         <!-- パンくず -->
         <nav class="flex items-center gap-1.5 text-xs text-[var(--text-muted)] mb-6 flex-wrap">
           {breadcrumbs.map((crumb, i) => (
@@ -76,6 +104,14 @@ const breadcrumbs = [
             {tags.map((tag) => (
               <TagBadge tag={tag} />
             ))}
+            {series && series.map((s) => (
+              <a
+                href={`/docs/series/${encodeURIComponent(s)}`}
+                class="inline-flex items-center gap-1 text-xs px-2.5 py-0.5 rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white transition-colors"
+              >
+                📚 {s}
+              </a>
+            ))}
             <time class="text-xs text-[var(--text-muted)] ml-auto">{formattedDate}</time>
           </div>
 
@@ -85,8 +121,9 @@ const breadcrumbs = [
           )}
         </header>
 
-        <!-- 本文 -->
+        <!-- 本文（h1はレイアウトヘッダーで表示済みのため非表示） -->
         <div class="prose prose-sm max-w-none
+          [&>h1]:hidden
           prose-headings:text-[var(--text-primary)]
           prose-p:text-[var(--text-primary)]
           prose-a:text-[var(--accent)]
@@ -106,9 +143,12 @@ const breadcrumbs = [
           <slot />
         </div>
 
+        <!-- シリーズ内の他のドキュメント -->
+        <DocsSeriesWidget doc={doc} />
+
         <!-- 出典 -->
         {source && (
-          <div class="mt-10 pt-6 border-t border-[var(--border)]">
+          <div class="mt-6 pt-6 border-t border-[var(--border)]">
             <p class="text-xs text-[var(--text-muted)]">
               出典: <span class="text-[var(--text-secondary)]">{source}</span>
             </p>
@@ -125,3 +165,23 @@ const breadcrumbs = [
     </aside>
   </div>
 </BaseLayout>
+
+<script>
+  const toggle   = document.getElementById('sidebar-toggle');
+  const sidebar  = document.getElementById('docs-sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+
+  function openSidebar() {
+    sidebar?.classList.remove('-translate-x-full');
+    backdrop?.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSidebar() {
+    sidebar?.classList.add('-translate-x-full');
+    backdrop?.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  toggle?.addEventListener('click', openSidebar);
+  backdrop?.addEventListener('click', closeSidebar);
+</script>

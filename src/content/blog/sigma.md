@@ -9,7 +9,9 @@ tags:
   - sequence
 categories:
   - algorithms
-    - computer-science
+  - computer-science
+series:
+  - アルゴリズム
 image: images/feature2/sigma.png
 ---
 

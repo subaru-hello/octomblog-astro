@@ -6,6 +6,8 @@ tags: ["DevOps", "SRE", "プロジェクト管理"]
 emoji: "⚖️"
 date: "2026-04-04"
 order: 60
+series:
+  - SREワークブック
 ---
 
 ## ルール

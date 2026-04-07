@@ -9,6 +9,8 @@ tags:
 - x
 categories:
 - algorithms
+series:
+  - アルゴリズム
 image: images/feature2/x.jpeg
 ---
 

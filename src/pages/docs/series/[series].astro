@@ -1,0 +1,130 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import DocsSidebar from '../../../components/docs/DocsSidebar.astro';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('docs');
+
+  const seriesSet = new Set<string>();
+  docs.forEach((doc) => doc.data.series?.forEach((s) => seriesSet.add(s)));
+
+  return Array.from(seriesSet).map((series) => ({
+    params: { series },
+    props: {
+      series,
+      docs: docs
+        .filter((d) => d.data.series?.includes(series))
+        .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0) || a.data.title.localeCompare(b.data.title, 'ja')),
+    },
+  }));
+}
+
+const { series, docs } = Astro.props;
+
+const categoryColors: Record<string, string> = {
+  '概念': 'var(--badge-tech)',
+  'フレームワーク': 'var(--badge-idea)',
+  'Tips': 'var(--badge-tips)',
+};
+---
+
+<BaseLayout title={series} noContainer>
+  <div class="flex min-h-screen">
+    <!-- モバイル：オーバーレイ背景 -->
+    <div
+      id="sidebar-backdrop"
+      class="fixed inset-0 z-30 bg-black/50 hidden lg:hidden"
+      aria-hidden="true"
+    ></div>
+
+    <!-- 左サイドバー -->
+    <aside
+      id="docs-sidebar"
+      class="
+        fixed top-14 left-0 z-40 h-[calc(100vh-3.5rem)] w-64
+        -translate-x-full transition-transform duration-200
+        lg:sticky lg:top-14 lg:translate-x-0 lg:w-56 lg:shrink-0 lg:block lg:z-auto
+        border-r border-[var(--border)] bg-[var(--sidebar-bg)]
+      "
+    >
+      <div class="h-full overflow-y-auto scrollbar-none p-4">
+        <p class="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-widest mb-4">Docs</p>
+        <DocsSidebar />
+      </div>
+    </aside>
+
+    <!-- 中央コンテンツ -->
+    <div class="flex-1 min-w-0 px-6 py-8">
+      <div class="max-w-3xl mx-auto">
+        <a
+          href="/docs"
+          class="flex items-center gap-1.5 text-xs text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors mb-6"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+          Docs
+        </a>
+
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-xl">📚</span>
+          <h1 class="text-2xl font-bold text-[var(--text-primary)]">{series}</h1>
+        </div>
+        <p class="text-sm text-[var(--text-secondary)] mb-8">{docs.length}件のドキュメント</p>
+
+        <ol class="space-y-3">
+          {docs.map((doc, i) => (
+            <li class="flex items-start gap-3">
+              <span class="text-sm text-[var(--text-muted)] mt-0.5 w-6 shrink-0 text-right">{i + 1}.</span>
+              <a
+                href={`/docs/${doc.id}`}
+                class="flex-1 group"
+              >
+                <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--accent)] transition-colors">
+                  <div class="flex items-start gap-2">
+                    <span class="text-xl shrink-0 leading-tight">{doc.data.emoji}</span>
+                    <div class="min-w-0">
+                      <p class="text-sm font-medium text-[var(--text-primary)] group-hover:text-[var(--accent)] leading-snug mb-1">
+                        {doc.data.title}
+                      </p>
+                      {doc.data.description && (
+                        <p class="text-xs text-[var(--text-muted)] line-clamp-2">{doc.data.description}</p>
+                      )}
+                      <div class="flex items-center gap-2 mt-1.5">
+                        <span
+                          class="text-xs font-semibold px-1.5 py-0.5 rounded-full text-white"
+                          style={`background-color: ${categoryColors[doc.data.category] ?? 'var(--badge-tech)'};`}
+                        >
+                          {doc.data.category}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const toggle   = document.getElementById('sidebar-toggle');
+  const sidebar  = document.getElementById('docs-sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+
+  function openSidebar() {
+    sidebar?.classList.remove('-translate-x-full');
+    backdrop?.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSidebar() {
+    sidebar?.classList.add('-translate-x-full');
+    backdrop?.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  toggle?.addEventListener('click', openSidebar);
+  backdrop?.addEventListener('click', closeSidebar);
+</script>

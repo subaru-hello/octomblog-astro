@@ -5,4 +5,4 @@ pages_build_output_dir = "dist"
 
 [[kv_namespaces]]
 binding = "VIEWS"
-id = "YOUR_KV_NAMESPACE_ID"  # Cloudflare Dashboardで発行後に置き換える
+id = "1c33f39a0ab34ec3a3750352e959a0cc"

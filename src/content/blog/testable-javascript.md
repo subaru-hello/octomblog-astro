@@ -7,6 +7,8 @@ tags:
   - ポエム
 categories:
   - 開発tips
+series:
+  - テスタブルJavaScript
 image: images/feature2/testableJavascript.jpg
 ---
 
