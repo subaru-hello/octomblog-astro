@@ -8,7 +8,7 @@ emoji: "📡"
 date: "2026-04-08"
 source: "TCP/IP入門・図解入門"
 series:
-  - TCP/IPネットワーク
+  - TCPIPネットワーク
 ---
 
 ## TCP/IP 4層モデル：概念の地図
