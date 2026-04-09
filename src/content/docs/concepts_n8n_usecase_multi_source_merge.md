@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 223
 title: 複数APIのデータをマージして統合レポートを作成する
 description: 複数のAPIソース（CRM・分析・会計）から並列でデータを取得し、Mergeノードで統合してGoogleシートへの統合ダッシュボードを作成するワークフロー。
 tags: ["n8n", "ユースケース", "マージ", "統合レポート", "並列処理", "データ集計", "Google Sheets"]

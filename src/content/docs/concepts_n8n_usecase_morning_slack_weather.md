@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 215
 title: 毎朝SlackにAIで天気・ニュースを通知する
 description: スケジュールトリガー＋HTTP Request＋LLMで、毎朝指定Slackチャンネルに天気・ニュースサマリーを自動投稿するワークフロー。
 tags: ["n8n", "ユースケース", "Slack", "スケジュール", "天気", "LLM", "OpenAI"]

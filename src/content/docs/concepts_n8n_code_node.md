@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 108
+order: 126
 title: n8n Codeノード・カスタム処理
 description: n8nのCodeノードでJavaScript/Pythonを記述してカスタム処理を実装する方法。データ変換・外部ライブラリ利用・複数item処理のパターンを解説。
 tags: ["n8n", "Codeノード", "JavaScript", "Python", "カスタム処理", "データ変換"]

@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 225
 title: GraphQL APIでGitHubのIssueを取得・加工する
 description: HTTP RequestノードでGitHub GraphQL APIを呼び出し、特定リポジトリのIssueを取得してNotionデータベースへ同期するワークフロー。
 tags: ["n8n", "ユースケース", "GraphQL", "GitHub", "API", "Notion", "Issue管理"]

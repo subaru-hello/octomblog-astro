@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 227
 title: SlackとNotionを連携したチームタスク管理フロー
 description: Slackの特定絵文字リアクションをトリガーにメッセージをNotionタスクとして自動作成し、Slack通知でフィードバックを返すワークフロー。
 tags: ["n8n", "ユースケース", "Slack", "Notion", "タスク管理", "チーム", "インテグレーション"]

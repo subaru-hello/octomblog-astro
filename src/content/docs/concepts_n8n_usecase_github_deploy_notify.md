@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 229
 title: GitHubデプロイイベントをSlackに通知する
 description: GitHub Triggerでpush/deploymentイベントを検知し、デプロイ環境・コミット情報・ステータスをSlackの開発チャンネルにリッチフォーマットで自動通知するワークフロー。
 tags: ["n8n", "ユースケース", "GitHub", "Slack", "デプロイ通知", "CI/CD", "DevOps"]

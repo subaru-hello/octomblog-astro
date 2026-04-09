@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 105
+order: 123
 title: n8n主要インテグレーション（Slack・Gmail・GitHub）
 description: n8nの400以上の組み込みインテグレーションの使い方。Slack・Gmail・GitHubなど頻繁に使うサービスの認証設定と代表的な操作を解説。
 tags: ["n8n", "インテグレーション", "Slack", "Gmail", "GitHub", "Notion"]

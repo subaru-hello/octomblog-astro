@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 222
 title: ループ処理でリストを走査し一括メール送信する
 description: GoogleシートまたはDBから送信先リストを取得し、Loop Over Itemsで1件ずつパーソナライズされたメールを送信するバルクメールワークフロー。
 tags: ["n8n", "ユースケース", "一括メール", "ループ", "SendGrid", "パーソナライズ", "バッチ処理"]

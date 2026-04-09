@@ -71,6 +71,28 @@ class Order:
         return self._id
 ```
 
+## Wild Workoutsでの確認
+
+`Hour` が Entity の典型例。
+
+```go
+type Hour struct {
+    hour         time.Time   // ID（同じ時刻なら同一のHour）
+    availability Availability // 状態（変化する）
+}
+
+// 不変条件をHour自身が守る
+func (h *Hour) ScheduleTraining() error {
+    if !h.IsAvailable() {
+        return ErrHourNotAvailable
+    }
+    h.availability = TrainingScheduled
+    return nil
+}
+```
+
+`time.Time` が識別子。`availability` が変化する状態。ルールは `Hour` のメソッドに集約されている。
+
 ## 値オブジェクトとの使い分け
 
 | | エンティティ | 値オブジェクト |

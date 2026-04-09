@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 216
 title: GitHubのPRをGoogleシートに自動記録する
 description: GitHub Triggerで新規PR作成を検知し、PR情報（タイトル・作者・ステータス）をGoogleスプレッドシートに自動追記するワークフロー。
 tags: ["n8n", "ユースケース", "GitHub", "Google Sheets", "PR管理", "自動記録"]

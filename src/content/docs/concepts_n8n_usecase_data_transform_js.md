@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 236
 title: JavaScriptで複雑なデータ変換処理を実装する
 description: 複数のネストされたAPIレスポンスをCodeノードのJavaScriptで正規化・変換・結合する高度なデータ変換パターン。配列操作・オブジェクト変換・日付処理の実例を解説。
 tags: ["n8n", "ユースケース", "Codeノード", "JavaScript", "データ変換", "正規化", "ETL"]

@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 230
 title: APIエラー発生時にSlackへアラートを送る
 description: n8nのError Triggerワークフローを使い、任意のワークフローでエラーが発生した際にSlackへ詳細なアラートを自動送信する監視パターン。
 tags: ["n8n", "ユースケース", "エラーアラート", "Slack", "Error Trigger", "監視", "オンコール"]

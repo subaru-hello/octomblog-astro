@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 233
 title: LLMを使ったカスタマーサポート自動応答ボット
 description: Chat TriggerとAI AgentでFAQに自動回答するサポートボットをn8nで構築する。Notionの社内ナレッジをRAGで参照し、対応できない場合は担当者へエスカレーションする。
 tags: ["n8n", "ユースケース", "AIエージェント", "カスタマーサポート", "RAG", "LLM", "チャットボット"]

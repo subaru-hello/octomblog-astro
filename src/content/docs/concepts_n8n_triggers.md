@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 102
+order: 120
 title: n8nトリガーの種類（Webhook・スケジュール・イベント）
 description: n8nワークフローを起動するトリガーの種類と使い分け。Webhookトリガー・スケジュールトリガー・アプリイベントトリガーの設定方法を解説。
 tags: ["n8n", "トリガー", "Webhook", "スケジュール", "イベント駆動"]

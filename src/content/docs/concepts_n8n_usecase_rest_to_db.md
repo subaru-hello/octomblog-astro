@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 224
 title: 外部REST APIからデータを取得してDBに保存する
 description: HTTP Requestノードで外部REST APIからJSONデータをページネーション付きで取得し、PostgreSQLデータベースへ自動保存するデータ取り込みワークフロー。
 tags: ["n8n", "ユースケース", "REST API", "PostgreSQL", "データ取り込み", "ページネーション", "ETL"]

@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 239
 title: Gitでワークフローをバージョン管理する
 description: n8nのSource Control機能（Git連携）を使い、ワークフローをGitHubで管理し、ブランチ戦略でdev/staging/prod環境へのデプロイを制御するセットアップ手順。
 tags: ["n8n", "ユースケース", "Git", "バージョン管理", "Source Control", "デプロイ", "CI/CD"]

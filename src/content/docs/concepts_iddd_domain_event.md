@@ -35,6 +35,46 @@ class OrderPlaced:
     occurred_at: datetime = field(default_factory=datetime.utcnow)
 ```
 
+## 基本的な形
+
+```go
+// 過去形・不変・発生時刻を持つ
+type OrderPlaced struct {
+    OrderID    OrderID
+    CustomerID CustomerID
+    OccurredAt time.Time
+}
+
+type TrainingScheduled struct {
+    HourTime   time.Time
+    TrainerID  TrainerID
+    OccurredAt time.Time
+}
+```
+
+## 疎結合への効果
+
+```go
+// 悪い例：注文サービスが直接依存
+func (s *OrderService) PlaceOrder(order Order) error {
+    s.inventoryService.Decrease(order.ProductID) // 密結合
+    s.notificationService.Notify(order.CustomerID) // 密結合
+}
+
+// 良い例：イベントを発行して終わり
+func (s *OrderService) PlaceOrder(order Order) error {
+    // ...注文処理...
+    s.eventPublisher.Publish(OrderPlaced{OrderID: order.ID})
+    return nil // 在庫・通知は知らない
+}
+```
+
+在庫サービスも通知サービスも `OrderPlaced` を購読して各自で動く。注文サービスは誰が聞いているか知らない。
+
+## Wild Workoutsとの接続
+
+`TrainingScheduled` イベントが発行されると、Users Context がそれを受け取って予約完了の処理をする。Trainer Context は Users の存在を知らない。コンテキスト間が疎結合になっている。
+
 ## なぜ重要か
 
 ドメインイベントを発行することで：

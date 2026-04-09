@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 221
 title: 条件分岐でリード属性に応じて担当者を振り分ける
 description: Webhookで受け取ったリード情報をIF/Switchノードで分類し、業種・予算・地域に応じた担当営業チームのSlackチャンネルに自動振り分けるワークフロー。
 tags: ["n8n", "ユースケース", "リードルーティング", "CRM", "条件分岐", "Switch", "Slack"]

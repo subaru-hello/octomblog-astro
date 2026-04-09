@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 107
+order: 125
 title: n8n AI・LLMエージェント（Chain・Agent）
 description: n8nのAdvanced AI機能。LangChain統合によるLLMチェーン・AIエージェント・RAG（検索拡張生成）・ベクターストアの構築方法を解説。
 tags: ["n8n", "AI", "LLM", "LangChain", "RAG", "エージェント", "OpenAI"]

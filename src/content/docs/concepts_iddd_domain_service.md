@@ -33,31 +33,23 @@ source: "実践ドメイン駆動設計（Vaughn Vernon）第7章"
 
 ## 例
 
-```python
-# ❌ どちらのエンティティに責務を持たせるか不自然
-class Account:
-    def transfer_to(self, target: 'Account', amount: Money) -> None:
-        # 自分が操作されながら相手も操作する — 不自然
-        ...
+```go
+// ❌ fromAccount のメソッドにするのは不自然
+func (a *Account) Transfer(to *Account, amount Money) error { ... }
 
-# ✅ ドメインサービスで表現
-class TransferService:
-    def __init__(self, account_repo: AccountRepository):
-        self._repo = account_repo
+// ✅ ドメインサービスで表現
+type TransferService struct{}
 
-    def transfer(
-        self,
-        source_id: AccountId,
-        target_id: AccountId,
-        amount: Money,
-    ) -> None:
-        source = self._repo.find_by_id(source_id)
-        target = self._repo.find_by_id(target_id)
-        source.debit(amount)
-        target.credit(amount)
-        self._repo.save(source)
-        self._repo.save(target)
+func (s TransferService) Transfer(from *Account, to *Account, amount Money) error {
+    if err := from.Withdraw(amount); err != nil {
+        return err
+    }
+    to.Deposit(amount)
+    return nil
+}
 ```
+
+送金は `from` にも `to` にも属さない。2つの集約をまたぐ操作なのでドメインサービスに置く。
 
 ## アプリケーションサービスとの違い
 

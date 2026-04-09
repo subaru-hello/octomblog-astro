@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 220
 title: Gmailトリガーでサポートメールを自動Notionチケット化する
 description: GmailトリガーでサポートメールをリアルタイムDetect検知し、AI分類後にNotionデータベースへ自動チケット作成するワークフロー。
 tags: ["n8n", "ユースケース", "Gmail", "Notion", "サポート", "チケット管理", "AI分類"]

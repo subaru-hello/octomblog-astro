@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 228
 title: GmailとHubSpotを連携したCRM自動化フロー
 description: Gmailで受信した営業メールをGmailトリガーで検知し、HubSpotのコンタクト・Deal・Activityに自動記録するCRM自動化ワークフロー。
 tags: ["n8n", "ユースケース", "Gmail", "HubSpot", "CRM", "営業自動化", "コンタクト管理"]

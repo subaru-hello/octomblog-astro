@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 218
 title: StripeのWebhookで決済完了を検知して処理する
 description: Stripeの決済完了イベントをn8nのWebhookで受信し、署名検証後に領収書メール送信・DBレコード更新・Slack通知を実行するワークフロー。
 tags: ["n8n", "ユースケース", "Stripe", "Webhook", "決済", "署名検証", "HMAC"]

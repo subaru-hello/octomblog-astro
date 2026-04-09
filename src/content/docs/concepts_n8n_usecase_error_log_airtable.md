@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 232
 title: エラーログをAirtableに自動記録する
 description: n8nのError Triggerでワークフローエラーを検知し、エラー詳細・ワークフロー名・発生時刻をAirtableに自動記録して運用ダッシュボードを構築するパターン。
 tags: ["n8n", "ユースケース", "エラーログ", "Airtable", "監視", "ダッシュボード", "Error Trigger"]

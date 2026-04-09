@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 217
 title: 新規ユーザー登録時にWelcomeメールを自動送信する
 description: WebhookでユーザーDB登録を検知し、SendGrid/Gmailでパーソナライズされたウェルカムメールを自動送信するワークフロー。
 tags: ["n8n", "ユースケース", "メール", "SendGrid", "Gmail", "ユーザー登録", "自動化"]

@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 237
 title: npmライブラリを使ったPDF自動生成フロー
 description: n8nのCodeノードでpdfkitなどのnpmライブラリを使って見積書・請求書・レポートPDFを自動生成し、メールに添付してGoogleDriveに保存するワークフロー。
 tags: ["n8n", "ユースケース", "PDF生成", "Codeノード", "pdfkit", "請求書", "自動化"]

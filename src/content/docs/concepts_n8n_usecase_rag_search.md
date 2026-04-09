@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 200
+order: 234
 title: ドキュメントRAG検索システムを構築する
 description: 社内ドキュメント（Notion/PDF/Confluence）をベクター化してQdrantに格納し、自然言語クエリで関連情報を検索・LLMで回答生成するRAGシステムをn8nで構築する。
 tags: ["n8n", "ユースケース", "RAG", "ベクターDB", "Qdrant", "Embeddings", "検索拡張生成"]

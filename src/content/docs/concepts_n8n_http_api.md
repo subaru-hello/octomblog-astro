@@ -1,6 +1,6 @@
 ---
 category: "概念"
-order: 104
+order: 122
 title: n8n HTTP Request・API連携
 description: n8nのHTTP Requestノードで任意のREST/GraphQL APIを呼び出す方法。認証設定・ページネーション・レスポンス処理の実践的な使い方を解説。
 tags: ["n8n", "HTTP Request", "REST API", "GraphQL", "API連携"]
