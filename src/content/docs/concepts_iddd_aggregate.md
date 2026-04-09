@@ -34,6 +34,34 @@ source: "実践ドメイン駆動設計（Vaughn Vernon）第10章"
 外部からは Order のメソッドを通じてのみ変更できる
 ```
 
+## Wild Workoutsでの確認
+
+`Hour` が集約ルート。`Availability` は外から直接変えられない。
+
+```go
+type Hour struct {
+    hour         time.Time    // 集約ルートのID
+    availability Availability // 外から直接変更不可
+}
+
+// 必ず集約ルート経由で操作する
+func (h *Hour) ScheduleTraining() error {
+    if !h.IsAvailable() {
+        return ErrHourNotAvailable
+    }
+    h.availability = TrainingScheduled
+    return nil
+}
+```
+
+```go
+// 悪い例：外から直接変更（整合性が崩れる）
+hour.availability = TrainingScheduled
+
+// 良い例：集約ルート経由
+hour.ScheduleTraining()
+```
+
 ## 集約ルートの責務
 
 ```python
