@@ -6,7 +6,7 @@ description: OSがパケットを作り別のPCへ届くまでの仕組みをASC
 tags: ["TCP/IP", "ネットワーク", "パケット通信", "OSI", "インフラ"]
 emoji: "📡"
 date: "2026-04-08"
-source: "TCP/IP入門・図解入門"
+source: "図解入門 TCP/IP・TCP/IPコンピューティング・ネットワーク入門"
 series:
   - TCPIPネットワーク
 ---

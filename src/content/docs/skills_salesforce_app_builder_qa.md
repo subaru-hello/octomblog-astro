@@ -403,3 +403,175 @@ series:
 - B. 30日間
 - C. 15日間 ✅
 - D. 復元不可
+
+---
+
+## Data Modeling 深掘り⑧：依存Picklist（Dependent Picklist）
+
+### 仕組み
+
+```
+Controlling Field（親）の選択値によって
+Dependent Field（子）の選択肢が変わる
+```
+
+### 重要ルール
+
+- Controlling FieldになれるのはPicklistまたは**Checkbox**のみ
+- Dependent FieldになれるのはPicklistまたは**Multi-Select Picklist**のみ
+- **Multi-Select PicklistはControlling Fieldになれない**
+
+---
+
+**Q21.** 「製品カテゴリ」を選ぶと「製品名」の選択肢が絞り込まれる仕組みを作りたい。何を使うべきか？
+
+- A. Record Type
+- B. Validation Rule
+- C. Dependent Picklist ✅
+- D. Formula Field
+
+---
+
+**Q22.** Dependent Picklistの「Controlling Field」に設定できないものはどれか？
+
+- A. カスタムPicklist
+- B. Checkbox
+- C. 標準Picklist
+- D. Multi-Select Picklist ✅
+
+**解説：** Multi-Select PicklistはControlling Fieldになれない。
+
+---
+
+## Data Modeling 深掘り⑨：Field History Tracking
+
+### 重要ルール
+
+- 1オブジェクトにつき**最大20項目**まで追跡可能
+- 履歴データは**18ヶ月間**保持
+- **FormulaとRoll-Up Summaryは追跡不可**
+
+---
+
+**Q23.** 商談の「金額」項目が誰によっていつ変更されたかを追跡したい。最適な方法は？
+
+- A. Validation Rule
+- B. Flow Builder
+- C. Field History Tracking ✅
+- D. Audit Trail
+
+**解説：** Audit Trailは管理者操作のログ。項目値の変更追跡はField History Tracking。
+
+---
+
+**Q24.** Field History Trackingで追跡できない項目型はどれか？
+
+- A. Currency
+- B. Picklist
+- C. Text
+- D. Roll-Up Summary ✅
+
+**解説：** Roll-Up SummaryとFormulaは計算値のため「変更」という概念がなく追跡不可。
+
+---
+
+## Data Modeling 深掘り⑩：上限・制限
+
+| 項目 | 上限 |
+|---|---|
+| 1オブジェクトのCustom Field数 | **500項目** |
+| Master-Detail Relationship | 1オブジェクトに**最大2つ** |
+| Lookup Relationship | 1オブジェクトに**最大25つ** |
+| Field History Tracking | 1オブジェクトに**最大20項目** |
+
+---
+
+**Q25.** 1つのカスタムオブジェクトに設定できるMaster-Detail Relationshipの最大数は？
+
+- A. 1つ
+- B. 2つ ✅
+- C. 5つ
+- D. 制限なし
+
+---
+
+**Q26.** 1つのオブジェクトに設定できるカスタム項目の上限は？
+
+- A. 100項目
+- B. 250項目
+- C. 500項目 ✅
+- D. 1000項目
+
+---
+
+## Data Modeling 深掘り⑪：Global Value Set
+
+### 仕組み
+
+```
+Global Value Set（一元管理）
+  → 複数のPicklist項目で同じ値セットを共有
+  → 1箇所変更すると全項目に自動反映
+```
+
+### 値削除時の動作（重要）
+
+```
+Picklist値を削除しても
+  → 既存レコード：値はそのまま残る（データ保護）
+  → 新規・編集時：選択肢に出てこない
+  → レコード削除：されない
+```
+
+---
+
+**Q27.** 「ステータス」という選択リストを10個のカスタムオブジェクトで使いまわしたい。値が変わったとき一括で更新できるようにするには？
+
+- A. 各オブジェクトに同じPicklistを個別作成する
+- B. Global Value Setを作成して各項目に適用する ✅
+- C. Formula Fieldで値を参照する
+- D. Record Typeで管理する
+
+---
+
+**Q28.** Global Value Setの値を1つ削除した場合、その値が設定されている既存レコードはどうなるか？
+
+- A. レコードごと削除される
+- B. 項目が空白になる
+- C. 削除した値は既存レコードには残るが新規選択はできなくなる ✅
+- D. エラーが発生して削除できない
+
+---
+
+## Data Modeling 深掘り⑫：Cross-Object Formula
+
+### Roll-Up SummaryとCross-Object Formulaの違い
+
+| | Roll-Up Summary | Cross-Object Formula |
+|---|---|---|
+| 方向 | 子→親（集計） | 子→親（参照） |
+| リレーション | **Master-Detailのみ** | **Lookup・Master-Detail両方** |
+| できること | SUM/COUNT/MAX/MIN | 親の値を表示 |
+| 編集 | 不可 | 不可 |
+
+---
+
+**Q29.** 商談（Opportunity）に、関連する取引先（Account）の「年間売上」を表示したい。コードなしで実現するには？
+
+- A. Roll-Up Summary Field
+- B. Cross-Object Formula Field ✅
+- C. Flow Builder
+- D. Validation Rule
+
+**解説：** 親の値を子に表示 → Cross-Object Formula。Roll-Up Summaryは集計専用。
+
+---
+
+**Q30.** Cross-Object FormulaとRoll-Up Summaryの違いとして正しいものはどれか？
+
+- A. Roll-Up SummaryはLookupでも使える
+- B. Cross-Object FormulaはMaster-Detailのみ使える
+- C. Roll-Up SummaryはMaster-Detailのみ、Cross-Object FormulaはLookupでも使える ✅
+- D. どちらも集計機能を持つ
+
+**解説：** 試験の最頻出の引っかけ。Roll-Up=Master-Detailのみ、Cross-Object Formula=Lookup可。
