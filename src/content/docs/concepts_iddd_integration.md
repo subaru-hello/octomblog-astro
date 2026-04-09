@@ -73,6 +73,18 @@ class CustomerContextACL:
         )
 ```
 
+## Wild Workoutsでの確認
+
+```
+[Trainer Context] --TrainingScheduled イベント--> [Users Context]
+      ↑
+  REST API（公開ホストサービス）
+```
+
+- Trainer が予約完了イベントを発行 → Users が購読してメール送信
+- Trainer Context は Users の存在を知らない（疎結合）
+- 外部APIと繋ぐ場合はACLで自コンテキストの型に変換する
+
 ## 統合パターンの選択指針
 
 | 要件 | 推奨パターン |

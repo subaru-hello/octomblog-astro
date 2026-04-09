@@ -46,6 +46,32 @@ class SqlOrderRepository(OrderRepository):
         ...
 ```
 
+## Wild Workoutsでの確認
+
+```go
+// ドメイン層が定義するインターフェース（ポート）
+type Repository interface {
+    GetHour(ctx context.Context, hourTime time.Time) (*Hour, error)
+    UpdateHour(
+        ctx context.Context,
+        hourTime time.Time,
+        updateFn func(h *Hour) (*Hour, error),
+    ) error
+}
+```
+
+`UpdateHour` が `updateFn` を受け取るパターンが特徴的。ドメインロジック（何を変えるか）と永続化（どこに保存するか）を分離している。
+
+```go
+// 呼び出し側：ドメインロジックだけ書く
+r.UpdateHour(ctx, hourTime, func(h *Hour) (*Hour, error) {
+    if err := h.ScheduleTraining(); err != nil {
+        return nil, err
+    }
+    return h, nil
+})
+```
+
 ## 設計の原則
 
 - **1集約につき1リポジトリ** — 集約ルートに対してのみリポジトリを作る。`OrderItem` の単独リポジトリは不要

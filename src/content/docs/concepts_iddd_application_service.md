@@ -60,6 +60,22 @@ class PlaceOrderApplicationService:
         return order.id
 ```
 
+## Wild Workoutsでの確認
+
+```go
+// アプリケーションサービス：オーケストレーションだけ
+func (s *TrainingService) ScheduleTraining(ctx context.Context, hourTime time.Time) error {
+    return s.repo.UpdateHour(ctx, hourTime, func(h *Hour) (*Hour, error) {
+        if err := h.ScheduleTraining(); err != nil { // 業務ルールはhour側
+            return nil, err
+        }
+        return h, nil
+    })
+}
+```
+
+「どこから取得して、誰を呼んで、どこに保存するか」だけ書いている。業務判断は `h.ScheduleTraining()` の中。
+
 ## 薄いサービス層の原則
 
 ```python

@@ -74,6 +74,32 @@ class Forum:
         )
 ```
 
+## Wild Workoutsでの確認
+
+`Hour` の生成は `Factory` 構造体が担う。新規作成とDB復元で検証ロジックを使い分けている。
+
+```go
+type Factory struct{ fc FactoryConfig }
+
+// 新規作成：全ルールを検証
+func (f Factory) NewAvailableHour(hour time.Time) (*Hour, error) {
+    if err := f.validateTime(hour); err != nil {
+        return nil, err
+    }
+    return &Hour{hour: hour, availability: Available}, nil
+}
+
+// DB復元：時間検証のみ（過去の記録を復元するので一部スキップ）
+func (f Factory) UnmarshalHourFromDatabase(hour time.Time, availability Availability) (*Hour, error) {
+    if err := f.validateTime(hour); err != nil {
+        return nil, err
+    }
+    return &Hour{hour: hour, availability: availability}, nil
+}
+```
+
+生成の文脈（新規 vs 復元）によってルールが変わる場合にファクトリが有効。
+
 ## ファクトリが必要なサイン
 
 - コンストラクタが5つ以上の引数を取る
