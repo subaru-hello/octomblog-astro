@@ -1,5 +1,5 @@
 ---
-title: OWASP Top 10
+title: "OWASP Top 10（2021年版）"
 category: "概念"
 emoji: "🕳️"
 order: 803
@@ -236,6 +236,14 @@ GET /api/fetch?url=http://169.254.169.254/latest/meta-data/iam/security-credenti
 | A8: Insecure Deserialization | A8: Integrity Failures（新規）|
 | A9: Vulnerable Components | A9: Logging & Monitoring Failures |
 | A10: Insufficient Logging | A10: SSRF（新規）|
+
+---
+
+## 関連ドキュメント
+
+- [OWASP Top 10 全バージョン比較（2003〜2025）](./concepts_security_owasp_top10_history.md)
+- [OWASP Top 10 2017](./concepts_security_owasp_top10_2017.md)
+- [OWASP Top 10 2025](./concepts_security_owasp_top10_2025.md)
 
 ---
 

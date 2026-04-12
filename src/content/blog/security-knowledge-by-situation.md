@@ -73,7 +73,7 @@ Astroや Hugo で作った、特にユーザーがログインしない、フォ
 
 ユーザーの名前・メールアドレス・住所が入っている。サービスの規模が大きくなってくると、攻撃者にとっての「旨み」が一気に上がる。個人情報は、まとめて売れるものだ。
 
-ここから先は、[OWASP Top 10](/docs/concepts_security_owasp_top10) を一度通読することをすすめる。Broken Access Control（認可の不備）が第1位であることが示すように、最も多い被害は「技術的に複雑な攻撃」ではなく、「あるべき認可チェックが抜けていた」という単純なミスによるものだ。
+ここから先は、[OWASP Top 10（2021年版）](/docs/concepts_security_owasp_top10) を一度通読することをすすめる。Broken Access Control（認可の不備）が第1位であることが示すように、最も多い被害は「技術的に複雑な攻撃」ではなく、「あるべき認可チェックが抜けていた」という単純なミスによるものだ。
 
 具体的に言うと、IDOR（Insecure Direct Object Reference）と呼ばれる攻撃がある。`/api/orders/12345` にアクセスしたとき、ログインユーザーが注文 12345 のオーナーかどうかを確認していないと、誰でも誰の注文でも見られる。これは実装ミスとしては地味だが、影響は致命的だ。
 
@@ -134,7 +134,7 @@ Astroや Hugo で作った、特にユーザーがログインしない、フォ
 - [セキュリティ概要・全体マップ](/docs/concepts_security_overview)
 - [脅威モデリング（STRIDE）](/docs/concepts_security_threat_modeling)
 - [セキュリティ設計原則（Zero Trust）](/docs/concepts_security_design_principles)
-- [OWASP Top 10](/docs/concepts_security_owasp_top10)
+- [OWASP Top 10（2021年版）](/docs/concepts_security_owasp_top10)
 - [認証・認可（OAuth2・JWT・MFA）](/docs/concepts_security_auth)
 - [インジェクション攻撃（SQLi・XSS）](/docs/concepts_webapp_security_injection)
 - [XSS・CSP](/docs/concepts_webapp_security_xss)
