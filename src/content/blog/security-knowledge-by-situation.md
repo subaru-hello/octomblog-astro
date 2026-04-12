@@ -10,7 +10,7 @@ tags:
 - 設計
 categories:
 - engineering
-image: images/blog-covers/security-knowledge-by-situation.webp
+image: images/blog-covers/security-knowledge-by-situation.jpg
 ---
 
 セキュリティの勉強をしよう、と思い立った日のことを覚えている。仕事でWebアプリを作っている以上、無知でいるのはまずい。そういう危機感みたいなものが急に湧いて、「Webアプリ セキュリティ」と検索した瞬間、大量のテキストが降ってきた。
