@@ -24,7 +24,16 @@ const { slug } = Astro.props;
   const slug = el?.dataset.slug;
 
   if (slug) {
-    fetch(`/api/views/${slug}`, { method: 'POST' })
+    const COOLDOWN_MS = 24 * 60 * 60 * 1000; // 24時間
+    const key = `viewed:${slug}`;
+    const lastViewed = Number(localStorage.getItem(key) ?? 0);
+    const shouldCount = Date.now() - lastViewed > COOLDOWN_MS;
+
+    if (shouldCount) {
+      localStorage.setItem(key, String(Date.now()));
+    }
+
+    fetch(`/api/views/${slug}`, { method: shouldCount ? 'POST' : 'GET' })
       .then((r) => r.json())
       .then((data: { views: number }) => {
         if (countEl) countEl.textContent = String(data.views);
